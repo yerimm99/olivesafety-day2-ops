@@ -3,6 +3,8 @@ kind: Kustomization
 
 resources:
   - ../../base
+  - cluster-secret-store.yaml
+  - external-secret.yaml
 
 images:
   - name: olivesafety-api
