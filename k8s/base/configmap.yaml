@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: olivesafety-api-config
+  namespace: olivesafety
+data:
+  SPRING_PROFILES_ACTIVE: "dev"
+  AWS_REGION: "ap-northeast-2"
