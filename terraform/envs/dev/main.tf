@@ -27,6 +27,28 @@ module "secrets_manager" {
   secret_values = var.secret_values
 }
 
+module "rds" {
+  source = "../../modules/rds"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnet_ids
+
+  allowed_cidr_blocks = [
+    module.vpc.vpc_cidr_block
+  ]
+
+  db_name     = "olivesafety"
+  db_username = var.secret_values["DB_USERNAME"]
+  db_password = var.secret_values["DB_PASSWORD"]
+
+  multi_az            = false
+  deletion_protection = false
+  skip_final_snapshot = true
+}
+
 output "api_secret_name" {
   value = module.secrets_manager.secret_name
 }
@@ -122,4 +144,20 @@ output "alb_controller_role_arn" {
 
 output "external_secrets_role_arn" {
   value = module.external_secrets_irsa.role_arn
+}
+
+output "rds_db_address" {
+  value = module.rds.db_address
+}
+
+output "rds_db_endpoint" {
+  value = module.rds.db_endpoint
+}
+
+output "rds_db_port" {
+  value = module.rds.db_port
+}
+
+output "rds_db_name" {
+  value = module.rds.db_name
 }
