@@ -8,5 +8,5 @@ resources:
 
 images:
   - name: olivesafety-api
-    newName: olivesafety-api
-    newTag: local
+    newName: 191524136560.dkr.ecr.ap-northeast-2.amazonaws.com/olivesafety-day2-ops-dev/olivesafety-api
+    newTag: dev-local
