@@ -41,6 +41,16 @@ module "eks" {
   node_max_size       = 2
 }
 
+module "alb_controller" {
+  source = "../../modules/alb-controller"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  oidc_provider_arn = module.eks.oidc_provider_arn
+  oidc_provider_url = module.eks.oidc_provider_url
+}
+
 output "vpc_id" {
   value = module.vpc.vpc_id
 }
@@ -75,4 +85,8 @@ output "eks_cluster_endpoint" {
 
 output "eks_oidc_provider_arn" {
   value = module.eks.oidc_provider_arn
+}
+
+output "alb_controller_role_arn" {
+  value = module.alb_controller.role_arn
 }

@@ -21,3 +21,7 @@ output "node_role_arn" {
 output "cluster_role_arn" {
   value = aws_iam_role.cluster.arn
 }
+
+output "oidc_provider_url" {
+  value = replace(aws_iam_openid_connect_provider.this.url, "https://", "")
+}
