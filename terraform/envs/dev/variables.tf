@@ -16,3 +16,8 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "secret_values" {
+  description = "Secret values for olivesafety api. Use local terraform.tfvars only."
+  type        = map(string)
+  sensitive   = true
+}

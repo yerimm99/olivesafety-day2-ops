@@ -18,6 +18,35 @@ module "ecr" {
   environment  = var.environment
 }
 
+module "secrets_manager" {
+  source = "../../modules/secrets-manager"
+
+  project_name  = var.project_name
+  environment   = var.environment
+  secret_name   = "api"
+  secret_values = var.secret_values
+}
+
+output "api_secret_name" {
+  value = module.secrets_manager.secret_name
+}
+
+output "api_secret_arn" {
+  value = module.secrets_manager.secret_arn
+}
+
+module "external_secrets_irsa" {
+  source = "../../modules/external-secrets-irsa"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  oidc_provider_arn = module.eks.oidc_provider_arn
+  oidc_provider_url = module.eks.oidc_provider_url
+
+  secret_arn = module.secrets_manager.secret_arn
+}
+
 module "eks" {
   source = "../../modules/eks"
 
@@ -89,4 +118,8 @@ output "eks_oidc_provider_arn" {
 
 output "alb_controller_role_arn" {
   value = module.alb_controller.role_arn
+}
+
+output "external_secrets_role_arn" {
+  value = module.external_secrets_irsa.role_arn
 }
