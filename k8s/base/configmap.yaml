@@ -6,3 +6,10 @@ metadata:
 data:
   SPRING_PROFILES_ACTIVE: "dev"
   AWS_REGION: "ap-northeast-2"
+
+  DB_HOST: "olivesafety-day2-ops-dev-mysql.cdtqdnpxmz0b.ap-northeast-2.rds.amazonaws.com"
+  DB_PORT: "3306"
+  DB_NAME: "olivesafety"
+
+  REDIS_HOST: "olivesafety-day2-ops-dev-redis.gyamym.ng.0001.apn2.cache.amazonaws.com"
+  REDIS_PORT: "6379"
