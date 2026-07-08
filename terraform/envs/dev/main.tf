@@ -49,6 +49,23 @@ module "rds" {
   skip_final_snapshot = true
 }
 
+module "redis" {
+  source = "../../modules/redis"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnet_ids
+
+  allowed_cidr_blocks = [
+    module.vpc.vpc_cidr_block
+  ]
+
+  automatic_failover_enabled = false
+  multi_az_enabled           = false
+}
+
 output "api_secret_name" {
   value = module.secrets_manager.secret_name
 }
@@ -160,4 +177,16 @@ output "rds_db_port" {
 
 output "rds_db_name" {
   value = module.rds.db_name
+}
+
+output "redis_primary_endpoint_address" {
+  value = module.redis.primary_endpoint_address
+}
+
+output "redis_port" {
+  value = module.redis.port
+}
+
+output "redis_security_group_id" {
+  value = module.redis.redis_security_group_id
 }
