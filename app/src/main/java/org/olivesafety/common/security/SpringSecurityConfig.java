@@ -45,7 +45,9 @@ public class SpringSecurityConfig {
                         "/error",
                         "/",
                         "/api/member/login",
-                        "/api/item"
+                        "/api/item",
+			"/actuator/health",
+                        "/actuator/health/**"
                 );
     }
 

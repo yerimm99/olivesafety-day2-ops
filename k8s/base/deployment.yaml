@@ -19,7 +19,7 @@ spec:
       containers:
         - name: olivesafety-api
           image: olivesafety-api:local
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
 

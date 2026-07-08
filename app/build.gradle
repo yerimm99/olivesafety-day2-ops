@@ -49,6 +49,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
     implementation 'com.amazonaws:aws-java-sdk-sqs:1.12.343'
     implementation 'com.amazonaws:aws-java-sdk-sns:1.12.343'
+    implementation 'com.amazonaws:aws-java-sdk-sts:1.12.343'
 
     //jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
