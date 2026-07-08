@@ -1,0 +1,2 @@
+NAME              CLASS   HOSTS   ADDRESS                                                                       PORTS   AGE
+olivesafety-api   alb     *       k8s-olivesaf-olivesaf-79727a2ba9-868612781.ap-northeast-2.elb.amazonaws.com   80      91m
