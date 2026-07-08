@@ -11,6 +11,13 @@ module "vpc" {
   enable_nat_gateway = false
 }
 
+module "ecr" {
+  source = "../../modules/ecr"
+
+  project_name = var.project_name
+  environment  = var.environment
+}
+
 output "vpc_id" {
   value = module.vpc.vpc_id
 }
@@ -25,4 +32,12 @@ output "private_subnet_ids" {
 
 output "cluster_name" {
   value = local.cluster_name
+}
+
+output "ecr_repository_name" {
+  value = module.ecr.repository_name
+}
+
+output "ecr_repository_url" {
+  value = module.ecr.repository_url
 }
