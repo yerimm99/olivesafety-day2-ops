@@ -1,0 +1,16 @@
+{
+    "imageDetails": [
+        {
+            "registryId": "191524136560",
+            "repositoryName": "olivesafety-day2-ops-dev/olivesafety-api",
+            "imageDigest": "sha256:c52b07eed386f029eec94f3ab8e9f57023e1fce2042c519462f339cde46382e4",
+            "imageTags": [
+                "ce641bd"
+            ],
+            "imageSizeInBytes": 169553023,
+            "imagePushedAt": "2026-07-10T14:47:56.876000+09:00",
+            "imageManifestMediaType": "application/vnd.oci.image.index.v1+json",
+            "imageStatus": "ACTIVE"
+        }
+    ]
+}
