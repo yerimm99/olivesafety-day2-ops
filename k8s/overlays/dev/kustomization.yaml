@@ -13,3 +13,5 @@ images:
 
 patches:
   - path: serviceaccount-irsa-patch.yaml
+  - path: deployment-replicas-patch.yaml
+  - path: hpa-dev-patch.yaml
