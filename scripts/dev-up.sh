@@ -6,6 +6,7 @@ AWS_REGION="${AWS_REGION:-ap-northeast-2}"
 PROJECT_NAME="olivesafety-day2-ops"
 ENV="dev"
 CLUSTER_NAME="${PROJECT_NAME}-${ENV}-eks"
+IMAGE_TAG="${IMAGE_TAG:-$(git rev-parse --short HEAD)}"
 
 ALB_ROLE_NAME="${PROJECT_NAME}-${ENV}-aws-load-balancer-controller-role"
 EXTERNAL_SECRETS_ROLE_NAME="${PROJECT_NAME}-${ENV}-external-secrets-role"
@@ -31,6 +32,7 @@ SQS_QUEUE_URL="$(terraform output -raw sqs_queue_url)"
 SNS_TOPIC_ARN="$(terraform output -raw sns_topic_arn)"
 
 echo "ECR_URL=${ECR_URL}"
+echo "IMAGE_TAG=${IMAGE_TAG}"
 echo "API_ROLE_ARN=${API_ROLE_ARN}"
 echo "SQS_QUEUE_URL=${SQS_QUEUE_URL}"
 echo "SNS_TOPIC_ARN=${SNS_TOPIC_ARN}"
@@ -90,7 +92,7 @@ aws ecr get-login-password \
 
 docker buildx build \
   --platform linux/amd64 \
-  -t "${ECR_URL}:dev-local" \
+  -t "${ECR_URL}:${IMAGE_TAG}" \
   "${ROOT_DIR}/app" \
   --push
 
@@ -104,6 +106,44 @@ metadata:
   annotations:
     eks.amazonaws.com/role-arn: ${API_ROLE_ARN}
 PATCH
+
+python3 - <<PY2
+from pathlib import Path
+
+p = Path("${ROOT_DIR}/k8s/overlays/dev/kustomization.yaml")
+s = p.read_text()
+
+lines = s.splitlines()
+out = []
+in_images = False
+target_image = False
+
+for line in lines:
+    stripped = line.strip()
+
+    if stripped == "images:":
+        in_images = True
+        out.append(line)
+        continue
+
+    if in_images and stripped.startswith("- name:"):
+        target_image = stripped == "- name: olivesafety-api"
+        out.append(line)
+        continue
+
+    if in_images and target_image and stripped.startswith("newName:"):
+        out.append(f"    newName: ${ECR_URL}")
+        continue
+
+    if in_images and target_image and stripped.startswith("newTag:"):
+        out.append(f"    newTag: ${IMAGE_TAG}")
+        target_image = False
+        continue
+
+    out.append(line)
+
+p.write_text("\n".join(out) + "\n")
+PY2
 
 kubectl apply -k "${ROOT_DIR}/k8s/overlays/dev"
 
