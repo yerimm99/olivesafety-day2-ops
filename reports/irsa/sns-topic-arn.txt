@@ -1,0 +1,1 @@
+"arn:aws:sns:ap-northeast-2:191524136560:olivesafety-day2-ops-dev-order-events"

@@ -24,7 +24,10 @@ module "secrets_manager" {
   project_name  = var.project_name
   environment   = var.environment
   secret_name   = "api"
-  secret_values = var.secret_values
+  secret_values = merge(var.secret_values, {
+    AWS_SQS_URL = aws_sqs_queue.order_events.url
+    AWS_SNS_ARN = aws_sns_topic.order_events.arn
+  })
 }
 
 module "rds" {

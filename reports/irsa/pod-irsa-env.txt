@@ -1,0 +1,2 @@
+AWS_ROLE_ARN=arn:aws:iam::191524136560:role/olivesafety-day2-ops-dev-api-role
+AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token

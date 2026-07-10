@@ -1,0 +1,200 @@
+2026-07-10 02:00:26.412  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:00:26.418  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:00:29.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:00:29.723  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:00:29.725  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:00:32.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:00:35.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:00:36.220  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/liveness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:00:36.222  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:00:38.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:00:39.722  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:00:39.725  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:00:41.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:00:41.354  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:00:41.360  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:00:41.425  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:00:41.431  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:00:44.345  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:00:47.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:00:49.723  INFO 1 --- [nio-8080-exec-3] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:00:49.725  INFO 1 --- [nio-8080-exec-3] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:00:50.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:00:53.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:00:56.219  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/liveness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:00:56.221  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:00:56.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:00:56.360  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:00:56.364  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:00:56.437  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:00:56.442  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:00:59.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:00:59.723  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:00:59.726  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:02.346  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:05.345  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:08.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:09.722  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:09.725  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:11.345  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:11.374  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:11.378  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:11.449  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:11.454  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:14.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:16.220  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/liveness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:16.222  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:17.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:19.722  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:19.724  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:20.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:23.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:26.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:26.376  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:26.381  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:26.451  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:26.457  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:29.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:29.722  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:29.724  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:32.345  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:35.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:36.220  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/liveness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:36.222  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:38.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:39.722  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:39.724  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:41.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:41.380  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:41.385  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:41.462  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:41.466  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:44.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:47.345  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:49.722  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:49.725  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:50.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:53.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:56.220  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/liveness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:56.222  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:56.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:56.395  INFO 1 --- [nio-8080-exec-3] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:56.401  INFO 1 --- [nio-8080-exec-3] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:56.476  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:56.480  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:01:59.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:01:59.722  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:01:59.724  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:02.350  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:05.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:08.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:09.723  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:09.725  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:11.346  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:11.397  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:11.402  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:11.477  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:11.482  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:14.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:16.220  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/liveness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:16.222  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:17.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:19.722  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:19.724  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:20.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:23.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:26.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:26.409  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:26.414  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:26.481  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:26.488  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:29.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:29.722  INFO 1 --- [nio-8080-exec-3] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:29.725  INFO 1 --- [nio-8080-exec-3] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:32.362  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:35.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:36.220  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/liveness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:36.222  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:38.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:39.722  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:39.724  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:41.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:41.417  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:41.422  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:41.493  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:41.498  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:44.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:47.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:49.722  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:49.724  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:50.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:53.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:56.220  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/liveness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:56.222  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:56.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:56.428  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:56.436  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:56.501  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:56.505  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:02:59.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:02:59.722  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:02:59.724  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:02.347  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:05.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:08.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:09.723  INFO 1 --- [nio-8080-exec-3] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:09.725  INFO 1 --- [nio-8080-exec-3] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:11.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:11.440  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:11.447  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:11.509  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:11.514  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:14.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:16.220  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/liveness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:16.221  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:17.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:19.723  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:19.725  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:20.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:23.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:26.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:26.453  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:26.458  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:26.521  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:26.525  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:29.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:29.722  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:29.725  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:32.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:35.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:36.220  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/liveness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:36.224  INFO 1 --- [io-8080-exec-10] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:38.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:39.722  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:39.724  INFO 1 --- [nio-8080-exec-1] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:41.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:41.465  INFO 1 --- [nio-8080-exec-3] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:41.473  INFO 1 --- [nio-8080-exec-3] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:41.536  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:41.541  INFO 1 --- [nio-8080-exec-2] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:44.367  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:47.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:49.722  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:49.725  INFO 1 --- [nio-8080-exec-4] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:50.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:53.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:56.219  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/liveness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:56.221  INFO 1 --- [nio-8080-exec-5] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:56.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:56.477  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:56.481  INFO 1 --- [nio-8080-exec-6] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:56.549  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:56.554  INFO 1 --- [nio-8080-exec-7] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:03:59.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:03:59.722  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:03:59.724  INFO 1 --- [nio-8080-exec-8] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
+2026-07-10 02:04:02.343  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:04:05.345  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:04:08.344  INFO 1 --- [   scheduling-1] o.o.c.presentation.SqsOrderProcessor     : No messages received from SQS.
+2026-07-10 02:04:09.723  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Incoming request: method=GET, uri=/actuator/health/readiness, params=org.apache.catalina.util.ParameterMap@38c23d6c
+2026-07-10 02:04:09.725  INFO 1 --- [nio-8080-exec-9] o.o.c.security.utils.ApiLoggingFilter    : Outgoing response: status=200
