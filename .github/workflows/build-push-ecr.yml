@@ -10,12 +10,13 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: olivesafety-day2-ops-dev/olivesafety-api
+  KUSTOMIZATION_PATH: k8s/overlays/dev/kustomization.yaml
 
 jobs:
   build-and-push:
@@ -25,6 +26,8 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set image tag
         id: vars
@@ -43,6 +46,13 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
+      - name: Set image uri
+        id: image
+        run: |
+          IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}"
+          echo "image_uri=${IMAGE_URI}" >> "$GITHUB_OUTPUT"
+          echo "IMAGE_URI=${IMAGE_URI}" >> "$GITHUB_ENV"
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -53,4 +63,67 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ steps.vars.outputs.image_tag }}
+            ${{ steps.image.outputs.image_uri }}:${{ steps.vars.outputs.image_tag }}
+
+      - name: Update Kubernetes image tag
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+
+          path = Path(os.environ["KUSTOMIZATION_PATH"])
+          image_uri = os.environ["IMAGE_URI"]
+          image_tag = os.environ["IMAGE_TAG"]
+
+          text = path.read_text()
+          lines = text.splitlines()
+
+          out = []
+          in_images = False
+          target_image = False
+
+          for line in lines:
+              stripped = line.strip()
+
+              if stripped == "images:":
+                  in_images = True
+                  out.append(line)
+                  continue
+
+              if in_images and stripped.startswith("- name:"):
+                  target_image = stripped == "- name: olivesafety-api"
+                  out.append(line)
+                  continue
+
+              if in_images and target_image and stripped.startswith("newName:"):
+                  indent = line[:len(line) - len(line.lstrip())]
+                  out.append(f"{indent}newName: {image_uri}")
+                  continue
+
+              if in_images and target_image and stripped.startswith("newTag:"):
+                  indent = line[:len(line) - len(line.lstrip())]
+                  out.append(f"{indent}newTag: {image_tag}")
+                  target_image = False
+                  continue
+
+              out.append(line)
+
+          path.write_text("\n".join(out) + "\n")
+          PY
+
+          echo "Updated ${KUSTOMIZATION_PATH}:"
+          grep -A3 "name: olivesafety-api" "${KUSTOMIZATION_PATH}"
+
+      - name: Commit Kubernetes image tag
+        run: |
+          if git diff --quiet "${KUSTOMIZATION_PATH}"; then
+            echo "No image tag change to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add "${KUSTOMIZATION_PATH}"
+          git commit -m "chore: update API image tag to ${IMAGE_TAG}"
+          git push
