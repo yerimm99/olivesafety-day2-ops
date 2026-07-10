@@ -6,40 +6,114 @@ AWS_REGION="${AWS_REGION:-ap-northeast-2}"
 PROJECT_NAME="olivesafety-day2-ops"
 ENV="dev"
 CLUSTER_NAME="${PROJECT_NAME}-${ENV}-eks"
-IMAGE_TAG="${IMAGE_TAG:-$(git rev-parse --short HEAD)}"
 
 ALB_ROLE_NAME="${PROJECT_NAME}-${ENV}-aws-load-balancer-controller-role"
 EXTERNAL_SECRETS_ROLE_NAME="${PROJECT_NAME}-${ENV}-external-secrets-role"
+ECR_REPOSITORY_NAME="${PROJECT_NAME}-${ENV}/olivesafety-api"
+
+BUILD_BOOTSTRAP_IMAGE="${BUILD_BOOTSTRAP_IMAGE:-true}"
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TF_DIR="${ROOT_DIR}/terraform/envs/dev"
+KUSTOMIZATION_PATH="${ROOT_DIR}/k8s/overlays/dev/kustomization.yaml"
+ARGOCD_APP_PATH="${ROOT_DIR}/argocd/apps/olivesafety-dev.yaml"
 
-echo "==> [1/8] Terraform apply"
+get_kustomize_image_tag() {
+  python3 - <<PY
+from pathlib import Path
+
+path = Path("${KUSTOMIZATION_PATH}")
+lines = path.read_text().splitlines()
+
+in_images = False
+target = False
+
+for line in lines:
+    stripped = line.strip()
+
+    if stripped == "images:":
+        in_images = True
+        continue
+
+    if in_images and stripped.startswith("- name:"):
+        target = stripped == "- name: olivesafety-api"
+        continue
+
+    if in_images and target and stripped.startswith("newTag:"):
+        print(stripped.split(":", 1)[1].strip())
+        break
+PY
+}
+
+get_kustomize_image_name() {
+  python3 - <<PY
+from pathlib import Path
+
+path = Path("${KUSTOMIZATION_PATH}")
+lines = path.read_text().splitlines()
+
+in_images = False
+target = False
+
+for line in lines:
+    stripped = line.strip()
+
+    if stripped == "images:":
+        in_images = True
+        continue
+
+    if in_images and stripped.startswith("- name:"):
+        target = stripped == "- name: olivesafety-api"
+        continue
+
+    if in_images and target and stripped.startswith("newName:"):
+        print(stripped.split(":", 1)[1].strip())
+        break
+PY
+}
+
+echo "==> [1/9] Terraform apply"
 cd "${TF_DIR}"
 terraform init
 terraform apply -auto-approve
 
-echo "==> [2/8] Update kubeconfig"
+echo "==> [2/9] Update kubeconfig"
 aws eks update-kubeconfig \
   --name "${CLUSTER_NAME}" \
   --region "${AWS_REGION}" \
   --profile "${AWS_PROFILE}"
 
-echo "==> [3/8] Get Terraform outputs"
+echo "==> [3/9] Get Terraform outputs"
 ECR_URL="$(terraform output -raw ecr_repository_url)"
 API_ROLE_ARN="$(terraform output -raw api_irsa_role_arn)"
 SQS_QUEUE_URL="$(terraform output -raw sqs_queue_url)"
 SNS_TOPIC_ARN="$(terraform output -raw sns_topic_arn)"
 
+IMAGE_TAG="${IMAGE_TAG:-$(get_kustomize_image_tag)}"
+MANIFEST_IMAGE_NAME="$(get_kustomize_image_name)"
+
 echo "ECR_URL=${ECR_URL}"
+echo "MANIFEST_IMAGE_NAME=${MANIFEST_IMAGE_NAME}"
 echo "IMAGE_TAG=${IMAGE_TAG}"
 echo "API_ROLE_ARN=${API_ROLE_ARN}"
 echo "SQS_QUEUE_URL=${SQS_QUEUE_URL}"
 echo "SNS_TOPIC_ARN=${SNS_TOPIC_ARN}"
 
+if [[ -z "${IMAGE_TAG}" ]]; then
+  echo "ERROR: Failed to read image newTag from ${KUSTOMIZATION_PATH}"
+  exit 1
+fi
+
+if [[ "${MANIFEST_IMAGE_NAME}" != "${ECR_URL}" ]]; then
+  echo "WARNING: kustomization newName does not match Terraform ECR URL."
+  echo "  manifest: ${MANIFEST_IMAGE_NAME}"
+  echo "  terraform: ${ECR_URL}"
+  echo "ArgoCD will deploy the image defined in Git."
+fi
+
 cd "${ROOT_DIR}"
 
-echo "==> [4/8] Install AWS Load Balancer Controller"
+echo "==> [4/9] Install AWS Load Balancer Controller"
 ALB_ROLE_ARN="$(aws iam get-role \
   --role-name "${ALB_ROLE_NAME}" \
   --profile "${AWS_PROFILE}" \
@@ -67,7 +141,6 @@ helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-contro
   --wait \
   --timeout 5m
 
-echo "Waiting for AWS Load Balancer Controller to be ready..."
 kubectl rollout status deployment/aws-load-balancer-controller \
   -n kube-system \
   --timeout=300s
@@ -97,10 +170,9 @@ if [[ "${WEBHOOK_READY}" != "true" ]]; then
   exit 1
 fi
 
-echo "==> [5/8] Install External Secrets Operator"
+echo "==> [5/9] Install External Secrets Operator"
 EXTERNAL_SECRETS_ROLE_ARN="$(aws iam get-role \
   --role-name "${EXTERNAL_SECRETS_ROLE_NAME}" \
-  --region "${AWS_REGION}" \
   --profile "${AWS_PROFILE}" \
   --query 'Role.Arn' \
   --output text)"
@@ -114,83 +186,129 @@ helm upgrade --install external-secrets external-secrets/external-secrets \
   --set installCRDs=true \
   --set serviceAccount.create=true \
   --set serviceAccount.name=external-secrets \
-  --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="${EXTERNAL_SECRETS_ROLE_ARN}"
+  --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="${EXTERNAL_SECRETS_ROLE_ARN}" \
+  --wait \
+  --timeout 5m
 
-echo "==> [6/8] Build and push app image"
-aws ecr get-login-password \
-  --region "${AWS_REGION}" \
-  --profile "${AWS_PROFILE}" \
-  | docker login --username AWS --password-stdin "$(echo "${ECR_URL}" | cut -d/ -f1)"
+kubectl rollout status deployment/external-secrets \
+  -n external-secrets \
+  --timeout=300s
 
-docker buildx build \
-  --platform linux/amd64 \
-  -t "${ECR_URL}:${IMAGE_TAG}" \
-  "${ROOT_DIR}/app" \
-  --push
+kubectl wait --for condition=Established \
+  crd/externalsecrets.external-secrets.io \
+  --timeout=120s
 
-echo "==> [7/8] Update app IRSA patch and apply Kubernetes manifests"
-cat > "${ROOT_DIR}/k8s/overlays/dev/serviceaccount-irsa-patch.yaml" <<PATCH
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: olivesafety-api-sa
-  namespace: olivesafety
-  annotations:
-    eks.amazonaws.com/role-arn: ${API_ROLE_ARN}
-PATCH
+kubectl wait --for condition=Established \
+  crd/clustersecretstores.external-secrets.io \
+  --timeout=120s
 
-python3 - <<PY2
-from pathlib import Path
+echo "==> [6/9] Build and push bootstrap image if missing"
+if [[ "${BUILD_BOOTSTRAP_IMAGE}" == "true" ]]; then
+  if aws ecr describe-images \
+    --repository-name "${ECR_REPOSITORY_NAME}" \
+    --image-ids imageTag="${IMAGE_TAG}" \
+    --region "${AWS_REGION}" \
+    --profile "${AWS_PROFILE}" >/dev/null 2>&1; then
 
-p = Path("${ROOT_DIR}/k8s/overlays/dev/kustomization.yaml")
-s = p.read_text()
+    echo "Image already exists in ECR: ${ECR_URL}:${IMAGE_TAG}"
+  else
+    echo "Image does not exist in ECR. Building bootstrap image: ${ECR_URL}:${IMAGE_TAG}"
 
-lines = s.splitlines()
-out = []
-in_images = False
-target_image = False
+    aws ecr get-login-password \
+      --region "${AWS_REGION}" \
+      --profile "${AWS_PROFILE}" \
+      | docker login --username AWS --password-stdin "$(echo "${ECR_URL}" | cut -d/ -f1)"
 
-for line in lines:
-    stripped = line.strip()
+    docker buildx inspect >/dev/null 2>&1 || docker buildx create --use
 
-    if stripped == "images:":
-        in_images = True
-        out.append(line)
-        continue
+    docker buildx build \
+      --platform linux/amd64 \
+      -t "${ECR_URL}:${IMAGE_TAG}" \
+      "${ROOT_DIR}/app" \
+      --push
+  fi
+else
+  echo "Skipping bootstrap image build. BUILD_BOOTSTRAP_IMAGE=false"
+fi
 
-    if in_images and stripped.startswith("- name:"):
-        target_image = stripped == "- name: olivesafety-api"
-        out.append(line)
-        continue
+echo "==> [7/9] Install ArgoCD"
+kubectl create namespace argocd \
+  --dry-run=client \
+  -o yaml | kubectl apply -f -
 
-    if in_images and target_image and stripped.startswith("newName:"):
-        out.append(f"    newName: ${ECR_URL}")
-        continue
+kubectl apply -n argocd \
+  -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-    if in_images and target_image and stripped.startswith("newTag:"):
-        out.append(f"    newTag: ${IMAGE_TAG}")
-        target_image = False
-        continue
+kubectl wait --for condition=Established \
+  crd/applications.argoproj.io \
+  --timeout=120s
 
-    out.append(line)
+kubectl rollout status deployment/argocd-repo-server \
+  -n argocd \
+  --timeout=300s
 
-p.write_text("\n".join(out) + "\n")
-PY2
+kubectl rollout status deployment/argocd-server \
+  -n argocd \
+  --timeout=300s
 
-kubectl apply -k "${ROOT_DIR}/k8s/overlays/dev"
+kubectl rollout status statefulset/argocd-application-controller \
+  -n argocd \
+  --timeout=300s
 
-echo "==> [8/8] Restart and verify deployment"
-kubectl rollout restart deployment/olivesafety-api -n olivesafety
-kubectl rollout status deployment/olivesafety-api -n olivesafety --timeout=300s
+echo "==> [8/9] Apply ArgoCD Application"
+kubectl apply -f "${ARGOCD_APP_PATH}"
 
-APP_ALB_DNS="$(kubectl get ingress olivesafety-api -n olivesafety -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')"
+kubectl annotate application olivesafety-dev \
+  -n argocd \
+  argocd.argoproj.io/refresh=hard \
+  --overwrite
+
+echo "Waiting for ArgoCD application to become Synced / Healthy..."
+ARGOCD_READY=false
+
+for i in {1..40}; do
+  SYNC_STATUS="$(kubectl get application olivesafety-dev -n argocd -o jsonpath='{.status.sync.status}' 2>/dev/null || true)"
+  HEALTH_STATUS="$(kubectl get application olivesafety-dev -n argocd -o jsonpath='{.status.health.status}' 2>/dev/null || true)"
+
+  echo "ArgoCD status: ${SYNC_STATUS:-Unknown} / ${HEALTH_STATUS:-Unknown} (${i}/40)"
+
+  if [[ "${SYNC_STATUS}" == "Synced" && "${HEALTH_STATUS}" == "Healthy" ]]; then
+    ARGOCD_READY=true
+    break
+  fi
+
+  sleep 15
+done
+
+if [[ "${ARGOCD_READY}" != "true" ]]; then
+  echo "ERROR: ArgoCD application did not become Synced / Healthy."
+
+  echo "Application conditions:"
+  kubectl get application olivesafety-dev -n argocd \
+    -o jsonpath='{range .status.conditions[*]}{.type}{" | "}{.message}{"\n"}{end}' || true
+
+  echo "Application resources:"
+  kubectl get application olivesafety-dev -n argocd \
+    -o jsonpath='{range .status.resources[*]}{.kind}{" / "}{.name}{" / "}{.status}{" / "}{.health.status}{"\n"}{end}' || true
+
+  echo "Pods in olivesafety namespace:"
+  kubectl get pods -n olivesafety || true
+
+  exit 1
+fi
+
+echo "==> [9/9] Verify application endpoint"
+APP_ALB_DNS=""
 
 echo "Waiting for ALB DNS..."
 for i in {1..30}; do
-  APP_ALB_DNS="$(kubectl get ingress olivesafety-api -n olivesafety -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' || true)"
+  APP_ALB_DNS="$(kubectl get ingress olivesafety-api -n olivesafety -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' 2>/dev/null || true)"
+
   if [[ -n "${APP_ALB_DNS}" ]]; then
     break
   fi
+
+  echo "Waiting for ALB DNS... ${i}/30"
   sleep 10
 done
 
