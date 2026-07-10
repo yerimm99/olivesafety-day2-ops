@@ -17,3 +17,7 @@ spring-secret.yaml
 .DS_Store
 .idea/
 .vscode/
+
+# Allow External Secrets manifests
+!k8s/overlays/dev/cluster-secret-store.yaml
+!k8s/overlays/dev/external-secret.yaml
