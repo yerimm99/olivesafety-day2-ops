@@ -63,7 +63,39 @@ helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-contro
   --set vpcId="${VPC_ID}" \
   --set serviceAccount.create=true \
   --set serviceAccount.name=aws-load-balancer-controller \
-  --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="${ALB_ROLE_ARN}"
+  --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="${ALB_ROLE_ARN}" \
+  --wait \
+  --timeout 5m
+
+echo "Waiting for AWS Load Balancer Controller to be ready..."
+kubectl rollout status deployment/aws-load-balancer-controller \
+  -n kube-system \
+  --timeout=300s
+
+echo "Waiting for AWS Load Balancer webhook endpoints..."
+WEBHOOK_READY=false
+
+for i in {1..30}; do
+  ENDPOINTS="$(kubectl get endpoints aws-load-balancer-webhook-service \
+    -n kube-system \
+    -o jsonpath='{.subsets[*].addresses[*].ip}' 2>/dev/null || true)"
+
+  if [[ -n "${ENDPOINTS}" ]]; then
+    echo "AWS Load Balancer webhook endpoints ready: ${ENDPOINTS}"
+    WEBHOOK_READY=true
+    break
+  fi
+
+  echo "Waiting for webhook endpoints... ${i}/30"
+  sleep 5
+done
+
+if [[ "${WEBHOOK_READY}" != "true" ]]; then
+  echo "ERROR: AWS Load Balancer webhook endpoints are not ready."
+  kubectl get pods -n kube-system | grep aws-load-balancer-controller || true
+  kubectl describe deployment aws-load-balancer-controller -n kube-system || true
+  exit 1
+fi
 
 echo "==> [5/8] Install External Secrets Operator"
 EXTERNAL_SECRETS_ROLE_ARN="$(aws iam get-role \
