@@ -1,0 +1,112 @@
+---
+- name: Install base packages
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - git
+      - curl-minimal
+      - unzip
+      - tar
+      - gzip
+      - jq
+      - python3
+      - python3-pip
+    state: present
+
+- name: Create temporary install directory
+  ansible.builtin.file:
+    path: /tmp/ops-tools-install
+    state: directory
+    mode: "0755"
+
+- name: Download AWS CLI v2 installer
+  ansible.builtin.get_url:
+    url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+    dest: "/tmp/ops-tools-install/awscliv2.zip"
+    mode: "0644"
+
+- name: Unarchive AWS CLI v2 installer
+  ansible.builtin.unarchive:
+    src: "/tmp/ops-tools-install/awscliv2.zip"
+    dest: "/tmp/ops-tools-install"
+    remote_src: true
+
+- name: Install or update AWS CLI v2
+  become: true
+  ansible.builtin.command:
+    cmd: "/tmp/ops-tools-install/aws/install --update"
+  changed_when: true
+
+- name: Install kubectl
+  become: true
+  ansible.builtin.get_url:
+    url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+    dest: "/usr/local/bin/kubectl"
+    mode: "0755"
+
+- name: Install Helm
+  become: true
+  ansible.builtin.shell: |
+    set -e
+    curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  args:
+    executable: /bin/bash
+  changed_when: true
+
+- name: Install ArgoCD CLI
+  become: true
+  ansible.builtin.get_url:
+    url: "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64"
+    dest: "/usr/local/bin/argocd"
+    mode: "0755"
+
+- name: Install CloudWatch Agent
+  become: true
+  ansible.builtin.dnf:
+    name: amazon-cloudwatch-agent
+    state: present
+
+- name: Create ops base directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ ops_base_dir }}"
+    state: directory
+    owner: ec2-user
+    group: ec2-user
+    mode: "0755"
+
+- name: Create ops-check directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ ops_check_dir }}"
+    state: directory
+    owner: ec2-user
+    group: ec2-user
+    mode: "0755"
+
+- name: Add useful shell aliases
+  ansible.builtin.blockinfile:
+    path: /home/ec2-user/.bashrc
+    marker: "# {mark} OLIVESAFETY OPS ALIASES"
+    block: |
+      alias k='kubectl'
+      alias kgp='kubectl get pods -A'
+      alias kgn='kubectl get nodes'
+      alias argocd-app='kubectl get application -n argocd'
+      export PATH=$PATH:/usr/local/bin
+
+- name: Verify installed tools
+  ansible.builtin.shell: |
+    set -e
+    aws --version
+    kubectl version --client=true
+    helm version --short
+    argocd version --client
+  args:
+    executable: /bin/bash
+  register: tool_versions
+  changed_when: false
+
+- name: Print installed tool versions
+  ansible.builtin.debug:
+    var: tool_versions.stdout_lines
