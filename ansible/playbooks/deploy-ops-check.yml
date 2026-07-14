@@ -1,0 +1,35 @@
+---
+- name: Deploy ops-check scripts to Bastion
+  hosts: ops
+  gather_facts: false
+
+  vars:
+    ops_base_dir: "/opt/olivesafety"
+    ops_check_dir: "/opt/olivesafety/ops-check"
+
+  tasks:
+    - name: Create ops base directory
+      become: true
+      ansible.builtin.file:
+        path: "{{ ops_base_dir }}"
+        state: directory
+        owner: ec2-user
+        group: ec2-user
+        mode: "0755"
+
+    - name: Create ops-check directory
+      become: true
+      ansible.builtin.file:
+        path: "{{ ops_check_dir }}"
+        state: directory
+        owner: ec2-user
+        group: ec2-user
+        mode: "0755"
+
+    - name: Copy dev health check script
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/../../ops-check/dev-health-check.sh"
+        dest: "{{ ops_check_dir }}/dev-health-check.sh"
+        owner: ec2-user
+        group: ec2-user
+        mode: "0755"

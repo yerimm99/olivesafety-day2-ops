@@ -1,20 +1,16 @@
 #!/usr/bin/env bash
 set -u
 
-AWS_PROFILE="${AWS_PROFILE:-yerim-admin}"
 AWS_REGION="${AWS_REGION:-ap-northeast-2}"
-PROJECT_NAME="olivesafety-day2-ops"
-ENV="dev"
+AWS_PROFILE="${AWS_PROFILE:-}"
+
 NAMESPACE="olivesafety"
 ARGOCD_NAMESPACE="argocd"
-APP_NAME="olivesafety-dev"
+ARGOCD_APP="olivesafety-dev"
 DEPLOYMENT_NAME="olivesafety-api"
 INGRESS_NAME="olivesafety-api"
 EXTERNAL_SECRET_NAME="olivesafety-api-secret"
-ECR_REPOSITORY_NAME="${PROJECT_NAME}-${ENV}/olivesafety-api"
-
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-KUSTOMIZATION_PATH="${ROOT_DIR}/k8s/overlays/dev/kustomization.yaml"
+ECR_REPOSITORY_NAME="olivesafety-day2-ops-dev/olivesafety-api"
 
 FAIL_COUNT=0
 
@@ -38,31 +34,12 @@ info() {
   echo "[INFO] $1"
 }
 
-get_image_tag() {
-  python3 - <<PY
-from pathlib import Path
-
-path = Path("${KUSTOMIZATION_PATH}")
-lines = path.read_text().splitlines()
-
-in_images = False
-target = False
-
-for line in lines:
-    stripped = line.strip()
-
-    if stripped == "images:":
-        in_images = True
-        continue
-
-    if in_images and stripped.startswith("- name:"):
-        target = stripped == "- name: olivesafety-api"
-        continue
-
-    if in_images and target and stripped.startswith("newTag:"):
-        print(stripped.split(":", 1)[1].strip())
-        break
-PY
+aws_base_args() {
+  if [[ -n "${AWS_PROFILE}" ]]; then
+    echo "--region ${AWS_REGION} --profile ${AWS_PROFILE}"
+  else
+    echo "--region ${AWS_REGION}"
+  fi
 }
 
 section "1. Kubernetes Context"
@@ -75,8 +52,7 @@ else
   fail "kubectl context not found"
 fi
 
-kubectl get nodes >/tmp/ops-check-nodes.txt 2>&1
-if [[ $? -eq 0 ]]; then
+if kubectl get nodes >/tmp/ops-check-nodes.txt 2>&1; then
   pass "Kubernetes nodes are reachable"
   cat /tmp/ops-check-nodes.txt
 else
@@ -86,8 +62,8 @@ fi
 
 section "2. ArgoCD Application"
 
-SYNC_STATUS="$(kubectl get application "${APP_NAME}" -n "${ARGOCD_NAMESPACE}" -o jsonpath='{.status.sync.status}' 2>/dev/null || true)"
-HEALTH_STATUS="$(kubectl get application "${APP_NAME}" -n "${ARGOCD_NAMESPACE}" -o jsonpath='{.status.health.status}' 2>/dev/null || true)"
+SYNC_STATUS="$(kubectl get application "${ARGOCD_APP}" -n "${ARGOCD_NAMESPACE}" -o jsonpath='{.status.sync.status}' 2>/dev/null || true)"
+HEALTH_STATUS="$(kubectl get application "${ARGOCD_APP}" -n "${ARGOCD_NAMESPACE}" -o jsonpath='{.status.health.status}' 2>/dev/null || true)"
 
 info "ArgoCD status: ${SYNC_STATUS:-Unknown} / ${HEALTH_STATUS:-Unknown}"
 
@@ -98,27 +74,27 @@ else
 
   echo
   echo "Application conditions:"
-  kubectl get application "${APP_NAME}" -n "${ARGOCD_NAMESPACE}" \
+  kubectl get application "${ARGOCD_APP}" -n "${ARGOCD_NAMESPACE}" \
     -o jsonpath='{range .status.conditions[*]}{.type}{" | "}{.message}{"\n"}{end}' 2>/dev/null || true
 
   echo
   echo "Application resources:"
-  kubectl get application "${APP_NAME}" -n "${ARGOCD_NAMESPACE}" \
+  kubectl get application "${ARGOCD_APP}" -n "${ARGOCD_NAMESPACE}" \
     -o jsonpath='{range .status.resources[*]}{.kind}{" / "}{.name}{" / "}{.status}{" / "}{.health.status}{"\n"}{end}' 2>/dev/null || true
 fi
 
 section "3. Deployment and Pods"
 
-kubectl rollout status deployment/"${DEPLOYMENT_NAME}" -n "${NAMESPACE}" --timeout=60s >/tmp/ops-check-rollout.txt 2>&1
-if [[ $? -eq 0 ]]; then
+if kubectl rollout status deployment/"${DEPLOYMENT_NAME}" -n "${NAMESPACE}" --timeout=60s >/tmp/ops-check-rollout.txt 2>&1; then
   pass "Deployment rollout completed"
 else
   fail "Deployment rollout is not complete"
 fi
-cat /tmp/ops-check-rollout.txt
 
+cat /tmp/ops-check-rollout.txt
 echo
-kubectl get deploy,rs,pods,hpa -n "${NAMESPACE}"
+
+kubectl get deploy,rs,pods,hpa -n "${NAMESPACE}" || true
 
 NOT_RUNNING_PODS="$(kubectl get pods -n "${NAMESPACE}" --no-headers 2>/dev/null | awk '$3 != "Running" && $3 != "Completed" {print $1 " " $3}' || true)"
 
@@ -140,15 +116,14 @@ else
   kubectl describe externalsecret "${EXTERNAL_SECRET_NAME}" -n "${NAMESPACE}" 2>/dev/null || true
 fi
 
-kubectl get secret "${EXTERNAL_SECRET_NAME}" -n "${NAMESPACE}" >/tmp/ops-check-secret.txt 2>&1
-if [[ $? -eq 0 ]]; then
+if kubectl get secret "${EXTERNAL_SECRET_NAME}" -n "${NAMESPACE}" >/tmp/ops-check-secret.txt 2>&1; then
   pass "Kubernetes Secret exists: ${EXTERNAL_SECRET_NAME}"
 else
   fail "Kubernetes Secret does not exist: ${EXTERNAL_SECRET_NAME}"
   cat /tmp/ops-check-secret.txt
 fi
 
-section "5. Ingress and ALB Health Check"
+section "5. Ingress and ALB Health"
 
 APP_ALB_DNS="$(kubectl get ingress "${INGRESS_NAME}" -n "${NAMESPACE}" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' 2>/dev/null || true)"
 
@@ -172,25 +147,27 @@ fi
 
 section "6. ECR Image Tag"
 
-IMAGE_TAG="$(get_image_tag)"
+DEPLOYED_IMAGE="$(kubectl get deployment "${DEPLOYMENT_NAME}" -n "${NAMESPACE}" -o jsonpath='{.spec.template.spec.containers[0].image}' 2>/dev/null || true)"
+IMAGE_TAG="${DEPLOYED_IMAGE##*:}"
 
-if [[ -n "${IMAGE_TAG}" ]]; then
-  pass "Image tag found in kustomization.yaml: ${IMAGE_TAG}"
+if [[ -n "${DEPLOYED_IMAGE}" && "${IMAGE_TAG}" != "${DEPLOYED_IMAGE}" ]]; then
+  pass "Deployed image detected: ${DEPLOYED_IMAGE}"
+  info "Image tag: ${IMAGE_TAG}"
 else
-  fail "Image tag not found in kustomization.yaml"
+  fail "Failed to parse deployed image tag"
 fi
 
-if [[ -n "${IMAGE_TAG}" ]]; then
-  aws ecr describe-images \
+AWS_ARGS="$(aws_base_args)"
+
+if [[ -n "${IMAGE_TAG}" && "${IMAGE_TAG}" != "${DEPLOYED_IMAGE}" ]]; then
+  if aws ecr describe-images \
     --repository-name "${ECR_REPOSITORY_NAME}" \
     --image-ids imageTag="${IMAGE_TAG}" \
-    --region "${AWS_REGION}" \
-    --profile "${AWS_PROFILE}" >/tmp/ops-check-ecr.txt 2>&1
+    ${AWS_ARGS} >/tmp/ops-check-ecr.txt 2>&1; then
 
-  if [[ $? -eq 0 ]]; then
     pass "ECR image exists: ${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"
   else
-    fail "ECR image does not exist: ${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"
+    fail "ECR image does not exist or cannot be described: ${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"
     cat /tmp/ops-check-ecr.txt
   fi
 fi
