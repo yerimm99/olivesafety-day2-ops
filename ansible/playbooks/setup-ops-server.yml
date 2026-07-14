@@ -1,0 +1,7 @@
+---
+- name: Setup Bastion Ops Server
+  hosts: ops
+  gather_facts: true
+
+  roles:
+    - ops-tools

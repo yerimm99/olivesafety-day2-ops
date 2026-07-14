@@ -21,3 +21,6 @@ spring-secret.yaml
 # Allow External Secrets manifests
 !k8s/overlays/dev/cluster-secret-store.yaml
 !k8s/overlays/dev/external-secret.yaml
+
+# Generated Ansible inventory
+ansible/inventory/*.ini
