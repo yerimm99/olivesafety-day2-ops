@@ -32,3 +32,7 @@ output "bastion_security_group_id" {
 output "bastion_iam_role_name" {
   value = module.bastion.iam_role_name
 }
+
+output "bastion_iam_role_arn" {
+  value = module.bastion.iam_role_arn
+}
