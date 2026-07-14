@@ -21,3 +21,14 @@ variable "secret_values" {
   type        = map(string)
   sensitive   = true
 }
+
+variable "bastion_allowed_ssh_cidr" {
+  description = "CIDR block allowed to SSH into bastion"
+  type        = string
+}
+
+variable "bastion_public_key_path" {
+  description = "Local SSH public key path for bastion"
+  type        = string
+  default     = "~/.ssh/olivesafety-dev-bastion.pub"
+}
