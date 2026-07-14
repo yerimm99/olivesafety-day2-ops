@@ -43,6 +43,4 @@
         owner: ec2-user
         group: ec2-user
         mode: "0755"
-      loop:
-        - "{{ playbook_dir }}/../../ops-check/dev-health-check.sh"
-        - "{{ playbook_dir }}/../../ops-check/dev-health-report.sh"
+      loop: "{{ lookup('ansible.builtin.fileglob', playbook_dir + '/../../ops-check/*.sh', wantlist=True) }}"
