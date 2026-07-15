@@ -30,3 +30,6 @@ ansible/inventory/*.ini
 build/
 app/.gradle/
 app/build/
+
+# Local alerting variables
+terraform/envs/dev/alerting.auto.tfvars
