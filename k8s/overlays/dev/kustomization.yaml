@@ -9,7 +9,7 @@ resources:
 images:
   - name: olivesafety-api
     newName: 191524136560.dkr.ecr.ap-northeast-2.amazonaws.com/olivesafety-day2-ops-dev/olivesafety-api
-    newTag: 6e66722
+    newTag: 55acdbf
 
 patches:
   - path: serviceaccount-irsa-patch.yaml
