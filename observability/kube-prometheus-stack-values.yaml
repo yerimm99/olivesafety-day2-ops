@@ -32,6 +32,10 @@ prometheus:
     serviceMonitorSelector: {}
     serviceMonitorNamespaceSelector: {}
 
+    ruleSelectorNilUsesHelmValues: false
+    ruleSelector: {}
+    ruleNamespaceSelector: {}
+
     storageSpec: {}
 
     resources:

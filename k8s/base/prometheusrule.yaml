@@ -1,0 +1,56 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: olivesafety-api-alert-rules
+  namespace: olivesafety
+  labels:
+    app.kubernetes.io/name: olivesafety-api
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: olivesafety-api.rules
+      rules:
+        - alert: OliveSafetyApiTargetDown
+          expr: up{job=~".*olivesafety.*"} == 0
+          for: 2m
+          labels:
+            severity: critical
+            service: olivesafety-api
+          annotations:
+            summary: "olivesafety-api Prometheus target is down"
+            description: "Prometheus cannot scrape metrics from olivesafety-api for more than 2 minutes."
+
+        - alert: OliveSafetyApiPodRestarted
+          expr: increase(kube_pod_container_status_restarts_total{namespace="olivesafety", pod=~"olivesafety-api.*"}[10m]) > 0
+          for: 1m
+          labels:
+            severity: warning
+            service: olivesafety-api
+          annotations:
+            summary: "olivesafety-api pod restarted"
+            description: "olivesafety-api pod restarted within the last 10 minutes."
+
+        - alert: OliveSafetyApiHttp5xxDetected
+          expr: sum(rate(http_server_requests_seconds_count{job=~".*olivesafety.*", status=~"5.."}[5m])) > 0
+          for: 2m
+          labels:
+            severity: warning
+            service: olivesafety-api
+          annotations:
+            summary: "olivesafety-api HTTP 5xx responses detected"
+            description: "olivesafety-api has returned HTTP 5xx responses during the last 5 minutes."
+
+        - alert: OliveSafetyApiHighJvmMemoryUsage
+          expr: |
+            (
+              sum(jvm_memory_used_bytes{job=~".*olivesafety.*", area="heap"})
+              /
+              sum(jvm_memory_max_bytes{job=~".*olivesafety.*", area="heap"})
+            ) > 0.8
+          for: 5m
+          labels:
+            severity: warning
+            service: olivesafety-api
+          annotations:
+            summary: "olivesafety-api JVM heap memory usage is high"
+            description: "olivesafety-api JVM heap memory usage has been over 80% for more than 5 minutes."
