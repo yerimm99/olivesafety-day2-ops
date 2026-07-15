@@ -24,3 +24,9 @@ spring-secret.yaml
 
 # Generated Ansible inventory
 ansible/inventory/*.ini
+
+# Gradle / build outputs
+.gradle/
+build/
+app/.gradle/
+app/build/
