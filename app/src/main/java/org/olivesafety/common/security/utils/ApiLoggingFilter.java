@@ -19,6 +19,14 @@ public class ApiLoggingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+	
+	String path = request.getRequestURI();
+
+	if (path.startsWith("/actuator/health")
+        	|| path.startsWith("/actuator/prometheus")) {
+   	     filterChain.doFilter(request, response);
+    	     return;
+	}
 
         // 요청 정보 로깅
         logger.info("Incoming request: method={}, uri={}, params={}",

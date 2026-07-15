@@ -48,7 +48,8 @@ public class SpringSecurityConfig {
                         "/api/item",
 			"/actuator/health",
                         "/actuator/health/**",
- 			"/actuator/prometheus"
+ 			"/actuator/prometheus",
+ 			"/actuator/prometheus/**"
                 );
     }
 
