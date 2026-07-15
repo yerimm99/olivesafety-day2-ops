@@ -28,6 +28,9 @@ prometheus:
     retention: 6h
     scrapeInterval: 30s
     evaluationInterval: 30s
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}
 
     storageSpec: {}
 
