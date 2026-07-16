@@ -23,6 +23,7 @@ workflows:
         - plan:
             extra_args:
               - -var-file=/opt/atlantis/tfvars/dev.tfvars
+	      - -var-file=/opt/atlantis/tfvars/alerting.tfvars
     apply:
       steps:
         - apply
