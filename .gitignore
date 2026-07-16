@@ -33,3 +33,7 @@ app/build/
 
 # Local alerting variables
 terraform/envs/dev/alerting.auto.tfvars
+
+# Atlantis local runtime secrets
+atlantis/.env
+atlantis/*.log

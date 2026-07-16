@@ -1,0 +1,10 @@
+repos:
+  - id: github.com/yerimm99/olivesafety-day2-ops
+    branch: /main/
+    apply_requirements:
+      - approved
+      - mergeable
+    allowed_overrides:
+      - apply_requirements
+      - workflow
+    allow_custom_workflows: true
