@@ -254,11 +254,10 @@ Plan: 0 to add, 2 to change, 0 to destroy
 | [Atlantis Terraform Automation Runbook](./docs/runbooks/atlantis-terraform-automation.md) | Atlantis 기반 Terraform plan/apply 운영 절차 |
 | [Teams Alerting Runbook](./docs/runbooks/teams-alerting.md) | CloudWatch-SNS-Lambda-Teams 장애 알림 구성 및 검증 |
 | [Loki Logging Runbook](./docs/runbooks/loki-logging.md) | Loki/Alloy 기반 로그 수집 구조 |
-| [Monitoring Guide](./monitoring/README.md) | Prometheus/Grafana 모니터링 구성 |
-| [Atlantis Setup](./atlantis/atlantis-setup.md) | Atlantis 구성 기록 |
-| [ArgoCD Setup](./argocd/README.md) | ArgoCD GitOps 구성 기록 |
-
-일부 문서는 환경 구성 진행 과정에 따라 파일명이 다를 수 있습니다. 실제 파일명은 repository의 `docs`, `monitoring`, `argocd`, `atlantis` 디렉터리를 기준으로 확인합니다.
+| [Application Metrics Monitoring](./docs/runbooks/application-metrics-monitoring.md) | 애플리케이션 메트릭 수집 및 모니터링 구성 |
+| [Prometheus Alert Rules](./docs/runbooks/prometheus-alert-rules.md) | PrometheusRule 기반 알림 규칙 구성 |
+| [ArgoCD GitOps Deployment](./docs/runbooks/argocd-gitops-deployment.md) | ArgoCD 기반 GitOps 배포 구성 |
+| [Bastion Ops Server](./docs/runbooks/bastion-ops-server.md) | Bastion/Ops Server 구성 및 운영 도구 설치 |
 
 ## 비용 절감을 위한 dev-up/dev-down 운영 방식
 
