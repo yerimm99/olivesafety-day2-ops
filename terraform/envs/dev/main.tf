@@ -107,7 +107,7 @@ module "eks" {
   node_subnet_ids = module.vpc.public_subnet_ids
 
   node_instance_types = ["t3.medium"]
-  node_desired_size   = 1
+  node_desired_size   = 2
   node_min_size       = 1
   node_max_size       = 2
 }

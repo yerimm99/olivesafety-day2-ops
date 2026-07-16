@@ -4,6 +4,7 @@ projects:
   - name: dev
     dir: terraform/envs/dev
     workspace: default
+    workflow: dev
     autoplan:
       when_modified:
         - "*.tf"
@@ -11,5 +12,17 @@ projects:
         - "../../modules/**/*.tf"
       enabled: true
     apply_requirements:
-      - approved
       - mergeable
+
+workflows:
+  dev:
+    plan:
+      steps:
+        - init
+        - plan:
+            extra_args:
+              - -var-file=/opt/atlantis/tfvars/dev.tfvars
+              - -var-file=/opt/atlantis/tfvars/alerting.tfvars
+    apply:
+      steps:
+        - apply
