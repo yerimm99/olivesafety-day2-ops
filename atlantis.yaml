@@ -12,7 +12,6 @@ projects:
         - "../../modules/**/*.tf"
       enabled: true
     apply_requirements:
-      - approved
       - mergeable
 
 workflows:
