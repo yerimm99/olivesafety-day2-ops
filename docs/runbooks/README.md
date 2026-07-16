@@ -21,3 +21,5 @@
 | irsa-credentials-error.md | Pod가 AWS credentials를 가져오지 못하는 경우 |
 | sqs-queue-not-found.md | SQS polling 시 QueueDoesNotExist 오류가 발생하는 경우 |
 | terraform-destroy-cleanup.md | terraform destroy 시 ECR/Secrets Manager 리소스 삭제가 실패하는 경우 |
+
+- [Atlantis Terraform Automation](./atlantis-terraform-automation.md)
