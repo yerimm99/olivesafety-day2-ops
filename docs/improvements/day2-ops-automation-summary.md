@@ -134,10 +134,6 @@ Atlantis 도입 과정에서 다음 이슈를 해결했다.
 | CloudWatch Alarm destroy 예정 | alerting.tfvars 미적용 | ALB/TG suffix tfvars 추가 |
 | NodeGroup desired size drift | 수동으로 늘린 node 수가 Terraform 변수에 미반영 | Terraform 기준 desired size 수정 |
 
-## 포트폴리오 요약 문장
+## 요약
 
 AWS EKS 기반 서비스 인프라를 대상으로 Day-2 운영 자동화 고도화를 수행했습니다. 기존 배포 중심 구조에서 나아가 Secrets Manager와 IRSA 기반 보안 구성, ArgoCD 기반 GitOps 배포, Prometheus/Grafana 모니터링, CloudWatch-SNS-Lambda-Teams 장애 알림, Bastion 기반 운영 점검 스크립트, Atlantis 기반 PR 단위 Terraform plan/apply 자동화까지 구현했습니다. 이를 통해 단순 인프라 구축이 아닌 운영 단계에서 필요한 변경 관리, 장애 감지, 알림, 점검 자동화 흐름을 검증했습니다.
-
-## 면접 설명용 요약
-
-이 프로젝트에서는 EKS에 애플리케이션을 배포하는 것보다, 배포 이후 운영 과정에서 필요한 자동화와 변경 관리에 집중했습니다. Secret 관리, Pod 권한, GitOps 배포, 모니터링, 장애 알림, 운영 점검 스크립트, Terraform PR 자동화를 단계적으로 구성했습니다. 특히 Atlantis를 Bastion에 구성해 Terraform 변경을 로컬이 아닌 PR 기반으로 검토하고 적용하도록 개선했으며, 이 과정에서 S3 remote state 권한, tfvars 주입, AWS 조회 권한, CloudWatch Alarm drift 같은 실제 운영 이슈를 해결했습니다.
